@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import TruckDetailsPage from "./pages/TruckDetailsPage";
@@ -12,13 +13,22 @@ import MyListingsPage from "./pages/MyListingsPage";
 import RequestsPage from "./pages/NotFoundPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AboutPage from "./pages/AboutPage";
+import PreLoader from "./pages/PreLoader";
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <PreLoader />;
+
   return (
     <BrowserRouter>
-
       <Header />
-      
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/catalog" element={<CatalogPage />} />
@@ -32,9 +42,7 @@ export default function App() {
         <Route path="/requests" element={<RequestsPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="*" element={<NotFoundPage />} />
-
       </Routes>
-
     </BrowserRouter>
   );
 }
