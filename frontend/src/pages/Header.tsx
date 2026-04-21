@@ -46,7 +46,7 @@ export default function Header() {
           className="flex items-center gap-2 text-lg font-semibold text-slate-900"
         >
           <Truck size={24} className="text-blue-600" />
-          <span>NukaTruck</span>
+          <span>UberTrack</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -167,7 +167,7 @@ export default function Header() {
                     onClick={() => setOpen(false)}
                     className="rounded-xl border border-slate-300 px-4 py-2 text-center text-sm font-medium text-slate-700"
                   >
-                    {user.name}
+                    <span>{user.name || user.name || 'Профиль'}</span>
                   </Link>
 
                   <button
