@@ -10,7 +10,7 @@ import AddListingPage from "./pages/AddListingPage";
 import EditListingPage from "./pages/EditListingPage";
 import ProfilePage from "./pages/ProfilePage";
 import MyListingsPage from "./pages/MyListingsPage";
-import RequestsPage from "./pages/NotFoundPage";
+import RequestsPage from "./pages/RequestsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AboutPage from "./pages/AboutPage";
 import PreLoader from "./pages/PreLoader";

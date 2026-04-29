@@ -32,7 +32,7 @@ export default function PreLoader() {
 
         {/* TITLE */}
         <h1 className="text-4xl md:text-5xl font-semibold tracking-wide text-white">
-          NukaTrack
+          UberTrack
         </h1>
 
         <p className="mt-2 text-sm text-slate-400">
