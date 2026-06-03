@@ -1,4 +1,6 @@
 import type { Listing } from '../../types/listing';
+import { useState } from 'react';
+import ContactOwnerModal from './ContactOwnerModal';
 
 interface StandardInfoSectionProps {
   listing: Listing;
@@ -7,6 +9,9 @@ interface StandardInfoSectionProps {
 export default function StandardInfoSection({
   listing,
 }: StandardInfoSectionProps) {
+
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
     <div>
       <div className="mb-3 flex items-center gap-3">
@@ -47,6 +52,20 @@ export default function StandardInfoSection({
         <p>{listing.owner.phone}</p>
         <p>{listing.owner.email}</p>
       </div>
+
+      <button
+        onClick={() => setIsContactOpen(true)}
+        className="rounded-xl bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
+      >
+        Связаться с владельцем
+      </button>
+
+
+      <ContactOwnerModal
+        owner={listing.owner}
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
     </div>
   );
 }

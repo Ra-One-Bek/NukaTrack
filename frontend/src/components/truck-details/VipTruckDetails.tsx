@@ -8,9 +8,13 @@ import TruckGallery from './TruckGallery';
 
 interface VipTruckDetailsProps {
   listing: Listing;
+  onRequest?: () => void;
 }
 
-export default function VipTruckDetails({ listing }: VipTruckDetailsProps) {
+export default function VipTruckDetails({
+  listing,
+  onRequest,
+}: VipTruckDetailsProps) {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <VipHeroSection listing={listing} />
@@ -56,7 +60,7 @@ export default function VipTruckDetails({ listing }: VipTruckDetailsProps) {
       </section>
 
       <VipBenefits />
-      <VipCTASection />
+      <VipCTASection listing={listing} onRequest={onRequest} />
     </div>
   );
 }

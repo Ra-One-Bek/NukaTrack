@@ -12,12 +12,7 @@ export default function Header() {
   useEffect(() => {
     async function loadUser() {
       const token = localStorage.getItem('token');
-
-      if (!token) {
-        setUser(null);
-        return;
-      }
-
+      if (!token) { setUser(null); return; }
       try {
         const me = await getMe();
         setUser(me);
@@ -26,7 +21,6 @@ export default function Header() {
         setUser(null);
       }
     }
-
     loadUser();
   }, []);
 
@@ -39,69 +33,168 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        width: '100%',
+        background: 'rgba(255,255,255,0.88)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(0,0,0,0.06)',
+        fontFamily: "'DM Sans', 'Inter', sans-serif",
+      }}
+    >
+      <div
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: 64,
+        }}
+      >
+        {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-2 text-lg font-semibold text-slate-900"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            textDecoration: 'none',
+          }}
         >
-          <Truck size={24} className="text-blue-600" />
-          <span>UberTrack</span>
+          <div
+            style={{
+              width: 34,
+              height: 34,
+              background: '#0f0f0f',
+              borderRadius: 9,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <Truck size={17} color="#fff" />
+          </div>
+          <span
+            style={{
+              fontSize: 15,
+              fontWeight: 700,
+              color: '#0f0f0f',
+              letterSpacing: '-0.3px',
+            }}
+          >
+            UberTrack
+          </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          <Link
-            to="/"
-            className="text-sm font-medium text-slate-700 transition hover:text-blue-600"
-          >
-            Главная
-          </Link>
-
-          <Link
-            to="/catalog"
-            className="text-sm font-medium text-slate-700 transition hover:text-blue-600"
-          >
-            Каталог
-          </Link>
-
-          <Link
-            to="/about"
-            className="text-sm font-medium text-slate-700 transition hover:text-blue-600"
-          >
-            О сервисе
-          </Link>
-
-          <Link
-            to="/contacts"
-            className="text-sm font-medium text-slate-700 transition hover:text-blue-600"
-          >
-            Контакты
-          </Link>
+        {/* Desktop nav */}
+        <nav className="hidden md:flex" style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {[
+            { to: '/', label: 'Главная' },
+            { to: '/catalog', label: 'Каталог' },
+            { to: '/about', label: 'О сервисе' },
+            { to: '/contacts', label: 'Контакты' },
+          ].map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              style={{
+                fontSize: 13,
+                fontWeight: 500,
+                color: '#555',
+                textDecoration: 'none',
+                padding: '6px 14px',
+                borderRadius: 20,
+                transition: 'background 0.15s, color 0.15s',
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.background = 'rgba(0,0,0,0.05)';
+                (e.target as HTMLElement).style.color = '#0f0f0f';
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.background = 'transparent';
+                (e.target as HTMLElement).style.color = '#555';
+              }}
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        {/* Desktop actions */}
+        <div className="hidden md:flex" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {user ? (
             <>
               <Link
                 to="/profile"
-                className="flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-600"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: '#333',
+                  textDecoration: 'none',
+                  background: '#f5f4f0',
+                  border: '1px solid rgba(0,0,0,0.08)',
+                  borderRadius: 20,
+                  padding: '7px 14px',
+                  transition: 'border-color 0.15s',
+                }}
               >
-                <User size={16} />
-                <span>{user.name}</span>
+                <div
+                  style={{
+                    width: 22,
+                    height: 22,
+                    background: '#0f0f0f',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <User size={12} color="#fff" />
+                </div>
+                {user.name}
               </Link>
 
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 rounded-xl border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: '#c53030',
+                  background: '#fff5f5',
+                  border: '1px solid #fed7d7',
+                  borderRadius: 20,
+                  padding: '7px 14px',
+                  cursor: 'pointer',
+                  transition: 'background 0.15s',
+                }}
               >
-                <LogOut size={16} />
-                <span>Выход</span>
+                <LogOut size={13} />
+                Выход
               </button>
             </>
           ) : (
             <Link
               to="/login"
-              className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-600"
+              style={{
+                fontSize: 13,
+                fontWeight: 500,
+                color: '#333',
+                textDecoration: 'none',
+                background: '#f5f4f0',
+                border: '1px solid rgba(0,0,0,0.08)',
+                borderRadius: 20,
+                padding: '7px 16px',
+              }}
             >
               Войти
             </Link>
@@ -109,71 +202,115 @@ export default function Header() {
 
           <Link
             to="/add"
-            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: '#fff',
+              textDecoration: 'none',
+              background: '#0f0f0f',
+              borderRadius: 20,
+              padding: '8px 18px',
+              transition: 'opacity 0.15s',
+            }}
+            onMouseEnter={(e) => ((e.target as HTMLElement).style.opacity = '0.85')}
+            onMouseLeave={(e) => ((e.target as HTMLElement).style.opacity = '1')}
           >
-            Разместить
+            + Разместить
           </Link>
         </div>
 
+        {/* Burger */}
         <button
           onClick={() => setOpen(!open)}
-          className="flex items-center justify-center md:hidden"
+          className="md:hidden"
           aria-label="Открыть меню"
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 4,
+            color: '#0f0f0f',
+          }}
         >
-          {open ? <X size={26} /> : <Menu size={26} />}
+          {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
+      {/* Mobile menu */}
       {open && (
-        <div className="border-t border-slate-200 bg-white md:hidden">
-          <div className="flex flex-col gap-4 px-4 py-6">
-            <Link
-              to="/"
-              onClick={() => setOpen(false)}
-              className="text-sm font-medium text-slate-700"
-            >
-              Главная
-            </Link>
+        <div
+          className="md:hidden"
+          style={{
+            borderTop: '1px solid rgba(0,0,0,0.06)',
+            background: '#fff',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', padding: '16px 20px 24px' }}>
+            {[
+              { to: '/', label: 'Главная' },
+              { to: '/catalog', label: 'Каталог' },
+              { to: '/about', label: 'О сервисе' },
+              { to: '/contacts', label: 'Контакты' },
+            ].map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                onClick={() => setOpen(false)}
+                style={{
+                  fontSize: 15,
+                  fontWeight: 500,
+                  color: '#333',
+                  textDecoration: 'none',
+                  padding: '12px 0',
+                  borderBottom: '1px solid rgba(0,0,0,0.05)',
+                }}
+              >
+                {label}
+              </Link>
+            ))}
 
-            <Link
-              to="/catalog"
-              onClick={() => setOpen(false)}
-              className="text-sm font-medium text-slate-700"
-            >
-              Каталог
-            </Link>
-
-            <Link
-              to="/about"
-              onClick={() => setOpen(false)}
-              className="text-sm font-medium text-slate-700"
-            >
-              О сервисе
-            </Link>
-
-            <Link
-              to="/contacts"
-              onClick={() => setOpen(false)}
-              className="text-sm font-medium text-slate-700"
-            >
-              Контакты
-            </Link>
-
-            <div className="mt-4 flex flex-col gap-3">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 20 }}>
               {user ? (
                 <>
                   <Link
                     to="/profile"
                     onClick={() => setOpen(false)}
-                    className="rounded-xl border border-slate-300 px-4 py-2 text-center text-sm font-medium text-slate-700"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 6,
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: '#333',
+                      textDecoration: 'none',
+                      background: '#f5f4f0',
+                      border: '1px solid rgba(0,0,0,0.08)',
+                      borderRadius: 12,
+                      padding: '12px',
+                    }}
                   >
-                    <span>{user.name || user.name || 'Профиль'}</span>
+                    <User size={15} />
+                    {user.name}
                   </Link>
-
                   <button
                     onClick={handleLogout}
-                    className="rounded-xl border border-red-200 px-4 py-2 text-center text-sm font-medium text-red-600"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 6,
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: '#c53030',
+                      background: '#fff5f5',
+                      border: '1px solid #fed7d7',
+                      borderRadius: 12,
+                      padding: '12px',
+                      cursor: 'pointer',
+                    }}
                   >
+                    <LogOut size={15} />
                     Выход
                   </button>
                 </>
@@ -181,7 +318,17 @@ export default function Header() {
                 <Link
                   to="/login"
                   onClick={() => setOpen(false)}
-                  className="rounded-xl border border-slate-300 px-4 py-2 text-center text-sm font-medium text-slate-700"
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: '#333',
+                    textDecoration: 'none',
+                    background: '#f5f4f0',
+                    border: '1px solid rgba(0,0,0,0.08)',
+                    borderRadius: 12,
+                    padding: '12px',
+                  }}
                 >
                   Войти
                 </Link>
@@ -190,9 +337,18 @@ export default function Header() {
               <Link
                 to="/add"
                 onClick={() => setOpen(false)}
-                className="rounded-xl bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white"
+                style={{
+                  textAlign: 'center',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: '#fff',
+                  textDecoration: 'none',
+                  background: '#0f0f0f',
+                  borderRadius: 12,
+                  padding: '13px',
+                }}
               >
-                Разместить объявление
+                + Разместить объявление
               </Link>
             </div>
           </div>
